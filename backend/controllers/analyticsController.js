@@ -1,6 +1,6 @@
-const Order = require('../model/order');
-const Product = require('../model/Product');
-const User = require('../model/User');
+const Order = require('../models/Order');
+const Product = require('../models/Product');
+const User = require('../models/User');
 
 const getAdminStats = async (req, res) =>{
     try{
