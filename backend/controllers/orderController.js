@@ -1,5 +1,5 @@
-const Order = require('../model/Order');
-const order = require('../model/Order');
+const Order = require('../models/Order');
+const order = require('../models/Order');
 
 const sendEmail = require('../utils/sendEmail');
 

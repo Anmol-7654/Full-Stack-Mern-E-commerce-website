@@ -1,12 +1,16 @@
 import {createSlice} from '@reduxjs/toolkit';
 
-const normalizeItem = (it) => ({
-  id: it.id || it.productId,
-  name: it.name,
-  price: Number(it.price || 0),
-  imageUrl: it.imageUrl,
-  quantity: it.quantity || it.qty || 1,
-});
+const normalizeItem = (it) => {
+  const prod = (it.product && typeof it.product === 'object') ? it.product :
+               (it.productId && typeof it.productId === 'object') ? it.productId : null;
+  const id = it.id || (typeof it.productId === 'string' ? it.productId : (prod && (prod._id || prod.id)));
+  const name = it.name || (prod && (prod.name || prod.title));
+  const priceVal = (it.price ?? (prod && (prod.price ?? prod.cost)));
+  const price = Number(priceVal ?? 0);
+  const imageUrl = it.imageUrl || (prod && (prod.imageUrl || prod.image));
+  const quantity = (it.quantity ?? it.qty ?? 1);
+  return { id, name, price, imageUrl, quantity };
+};
 
 const stored = localStorage.getItem('cartItems') ? JSON.parse(localStorage.getItem('cartItems')) : [];
 const normalizedStored = Array.isArray(stored) ? stored.map(normalizeItem) : [];
