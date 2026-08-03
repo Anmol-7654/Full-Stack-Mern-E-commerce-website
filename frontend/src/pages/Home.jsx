@@ -16,9 +16,9 @@ const Home = () => {
                 }
                 const data = await response.json();
                 const products = Array.isArray(data) && data.length ? data : seedProducts;
-                setFeaturedProducts(products.slice(0, 6));
+                setFeaturedProducts(products);
             } catch (error) {
-                console.error(error);
+                console.error('Product API failed:', error);
                 setFeaturedProducts(seedProducts);
             } finally {
                 setLoading(false);
