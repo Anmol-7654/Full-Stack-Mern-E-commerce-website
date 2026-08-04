@@ -22,11 +22,16 @@ const Login = () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password })
       });
-      login(data);
-      navigate('/');
+
+      if (data && typeof data === 'object') {
+        login(data);
+        navigate('/');
+      } else {
+        throw new Error('Invalid login response from server.');
+      }
     } catch (error) {
       console.error(error);
-      setError('Unable to reach the server. Please make sure the backend is running.');
+      setError(error?.message || 'Unable to reach the server. Please make sure the backend is running.');
     } finally {
       setIsSubmitting(false);
     }

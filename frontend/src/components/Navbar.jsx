@@ -19,15 +19,10 @@ const Navbar = () => {
         <nav className="navbar">
             <div className="navbar-brand">
                 <Link to="/">
-                    <video
-                        src="/static/logo-video.mp4"
+                    <img
+                        src="/ShopNestLogo.png"
                         className="navbar-logo"
-                        autoPlay
-                        loop
-                        muted
-                        playsInline
-                        preload="auto"
-                        aria-label="ShopNest logo"
+                        alt="ShopNest logo"
                     />
                     <span>ShopNest</span>
                 </Link>
