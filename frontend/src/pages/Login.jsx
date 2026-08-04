@@ -2,6 +2,7 @@ import React, { useState, useContext } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import '../styles/auth.css';
+import { fetchJson } from '../api';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -16,28 +17,13 @@ const Login = () => {
     setError('');
     setIsSubmitting(true);
     try {
-      // const res = await fetch('/api/auth/login', {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify({ email, password })
-      const res = await fetch(
-  `${process.env.REACT_APP_API_URL}/api/auth/login`,
-  {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ email, password }),
-  }
-);
-     // });
-      const data = await res.json();
-      if (res.ok) {
-        login(data);
-        navigate('/');
-      } else {
-        setError(data.message || 'Login failed. Please try again.');
-      }
+      const data = await fetchJson('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password })
+      });
+      login(data);
+      navigate('/');
     } catch (error) {
       console.error(error);
       setError('Unable to reach the server. Please make sure the backend is running.');

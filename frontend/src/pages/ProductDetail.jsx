@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import { addToCart } from '../redux/cardSlice';
 import seedProducts from '../data/seedProducts';
 import '../styles/product.css';
+import { fetchJson } from '../api';
 
 const ProductDetail = () => {
   const { id } = useParams();
@@ -18,11 +19,7 @@ const ProductDetail = () => {
       setError('');
       setProduct(null);
       try {
-        const res = await fetch(`/api/products/${id}`);
-        if (!res.ok) {
-          throw new Error('Product not found from backend');
-        }
-        const data = await res.json();
+        const data = await fetchJson(`/api/products/${id}`);
         setProduct(data);
       } catch (error) {
         console.error('Product detail fetch failed:', error);

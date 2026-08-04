@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import ProductCard from '../components/ProductCard';
 import seedProducts from '../data/seedProducts';
+import { fetchJson } from '../api';
 
 const Home = () => {
     const [featuredProducts, setFeaturedProducts] = useState([]);
@@ -10,11 +11,7 @@ const Home = () => {
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                const response = await fetch('/api/products');
-                if (!response.ok) {
-                    throw new Error('Failed to load products');
-                }
-                const data = await response.json();
+                const data = await fetchJson('/api/products');
                 const products = Array.isArray(data) && data.length ? data : seedProducts;
                 setFeaturedProducts(products);
             } catch (error) {
