@@ -23,9 +23,6 @@ app.use(cors(
 app.use(express.json());
 app.use(express.urlencoded({ extended: true}));
 
-app.get("/", (req, res) => {
-    res.send("ShopNest Backend is working properly!");
-});
 
 app.use('/api/auth', require('./routes/authRoutes'));
 app.use('/api/products',require('./routes/productRoutes'));
