@@ -30,19 +30,25 @@ const Shop = () => {
                 <h1>Shop the latest picks</h1>
                 <p>Discover premium essentials, everyday favorites, and curated deals for every corner of your life.</p>
             </section>
+
             <div style={{ maxWidth: '1200px', margin: '20px auto', color: '#a1a1aa' }}>
                 <strong>Products found:</strong> {products.length}
             </div>
+
             {loading ? (
                 <p className="loading-state">Loading products...</p>
-            ) : products.length > 0 ? (
-                <div className="product-grid">
-                    {products.map((product) => (
-                        <ProductCard key={product._id || product.id} product={product} />
-                    ))}
+            ) : (
+                <div className="shop-search-container">
+                    {products.length > 0 ? (
+                        <div className="product-grid">
+                            {products.map((product) => (
+                                <ProductCard key={product._id || product.id} product={product} />
+                            ))}
+                        </div>
+                    ) : (
+                        <p className="empty-state">No products available.</p>
+                    )}
                 </div>
-            ) : ( 
-                <p className="empty-state">No products available right now.</p>
             )}
         </div>
     );

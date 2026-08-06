@@ -1,26 +1,45 @@
 import React, { createContext, useState } from 'react';
 
+const safeLocalStorage = {
+    getItem(key) {
+        try {
+            return localStorage.getItem(key);
+        } catch {
+            return null;
+        }
+    },
+    setItem(key, value) {
+        try {
+            localStorage.setItem(key, value);
+        } catch {
+            // Ignore storage errors in private or restricted browser contexts.
+        }
+    },
+    removeItem(key) {
+        try {
+            localStorage.removeItem(key);
+        } catch {
+            // Ignore storage errors in private or restricted browser contexts.
+        }
+    }
+};
+
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(() => {
-        try {
-            const storedUser = localStorage.getItem('userInfo');
-            return storedUser ? JSON.parse(storedUser) : null;
-        } catch {
-            localStorage.removeItem('userInfo');
-            return null;
-        }
+        const storedUser = safeLocalStorage.getItem('userInfo');
+        return storedUser ? JSON.parse(storedUser) : null;
     });
           
     const login = (userData) => {
         setUser(userData);
-        localStorage.setItem('userInfo', JSON.stringify(userData));
+        safeLocalStorage.setItem('userInfo', JSON.stringify(userData));
     };
 
     const logout = () => {
         setUser(null);
-        localStorage.removeItem('userInfo');
+        safeLocalStorage.removeItem('userInfo');
     };
 
     return (
